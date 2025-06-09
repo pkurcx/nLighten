@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Angular Curriculum</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .table-sortable th:hover {
+            cursor: pointer;
+            background-color: #f1f5f9;
+        }
+        .table-sortable th .sort-icon {
+            display: inline-block;
+            margin-left: 0.5rem;
+            opacity: 0.5;
+            transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .table-sortable th.sorted-asc .sort-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+        .table-sortable th.sorted-desc .sort-icon {
+            opacity: 1;
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Header Section -->
+<header class="bg-white shadow-sm">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
+                The Ultimate Angular Curriculum
+            </h1>
+            <p class="mt-2 text-base sm:text-lg text-gray-600">
+                From Zero to Proficient with Angular v20+
+            </p>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="container mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="bg-white p-6 rounded-2xl shadow-lg">
+        <!-- Intro Text & Search -->
+        <div class="mb-6">
+            <p class="text-gray-700 mb-6 text-center max-w-3xl mx-auto">
+                This curriculum is designed for Angular v20+ and guides development teams from zero to proficient. It is structured by Proficiency and Frequency of use to ensure a logical and practical learning path, emphasizing modern Angular practices from the ground up.
+            </p>
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="Search for a topic..." class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Curriculum Table -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 table-sortable">
+                <thead class="bg-gray-100">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Category</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Title</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" data-sort="proficiency">
+                        Proficiency <span class="sort-icon">▲</span>
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider" data-sort="frequency">
+                        Frequency <span class="sort-icon">▲</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="curriculumTableBody" class="bg-white divide-y divide-gray-200">
+                <!-- Table rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+            <p id="noResults" class="text-center py-8 text-gray-500 hidden">No topics found matching your search.</p>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="text-center py-6 px-4">
+    <p class="text-sm text-gray-500">&copy; 2025 Ultimate Angular Curriculum. All Rights Reserved.</p>
+</footer>
+
+<script>
+    const curriculumData = [
+        { category: 'Angular CLI & Project Fundamentals', title: 'Understand Angular as a component-based framework for SPAs', proficiency: 1, frequency: 10 },
+        { category: 'Angular CLI & Project Fundamentals', title: "Recognize TypeScript as Angular's primary language", proficiency: 1, frequency: 10 },
+        { category: 'Angular CLI & Project Fundamentals', title: 'Serve the application locally (ng serve)', proficiency: 1, frequency: 10 },
+        { category: 'Component & Template Fundamentals', title: 'Define a component with @Component decorator (standalone by default)', proficiency: 1, frequency: 10 },
+        { category: 'Component & Template Fundamentals', title: 'Render static HTML in a component template', proficiency: 1, frequency: 10 },
+        { category: 'Data Binding & Control Flow', title: 'Render dynamic text with interpolation {{ expression }}', proficiency: 1, frequency: 10 },
+        { category: 'Angular CLI & Project Fundamentals', title: 'Understand basic Angular project structure (src, main.ts, component files)', proficiency: 1, frequency: 8 },
+        { category: 'Core Reactivity with Signals', title: 'Create a writable signal using signal(initialValue)', proficiency: 2, frequency: 10 },
+        { category: 'Core Reactivity with Signals', title: 'Read the value of a signal in the component class and template using mySignal()', proficiency: 2, frequency: 10 },
+        { category: 'Angular CLI & Project Fundamentals', title: 'Generate components, services, etc. using Angular CLI (ng generate)', proficiency: 2, frequency: 10 },
+        { category: 'Component & Template Fundamentals', title: 'Define selector, template (inline or templateUrl), and style (inline or styleUrl/styleUrls) in @Component', proficiency: 2, frequency: 10 },
+        { category: 'Component & Template Fundamentals', title: "Use a component's selector in another standalone component's template (and import it)", proficiency: 2, frequency: 10 },
+        { category: 'Data Binding & Control Flow', title: 'Bind to element properties using Property Binding [property]="expression"', proficiency: 2, frequency: 10 },
+        { category: 'Data Binding & Control Flow', title: 'Use @if (condition) for conditional rendering', proficiency: 2, frequency: 10 },
+        { category: 'Data Binding & Control Flow', title: 'Use @for (item of items; track expression) to render lists', proficiency: 2, frequency: 10 },
+        { category: 'Component Interaction & Lifecycle', title: 'Pass data into a component with input() signal / @Input() decorator', proficiency: 2, frequency: 10 },
+        { category: 'Core Reactivity with Signals', title: 'Update a signal\'s value directly using mySignal.set(newValue)', proficiency: 2, frequency: 9 },
+        { category: 'Data Binding & Control Flow', title: 'Listen to native DOM events using Event Binding (event)="handler()"', proficiency: 2, frequency: 9 },
+        { category: 'Component & Template Fundamentals', title: 'Apply component-scoped CSS for styling', proficiency: 2, frequency: 9 },
+        { category: 'Component & Template Fundamentals', title: "Understand the imports array in a standalone component's metadata", proficiency: 2, frequency: 9 },
+        { category: 'Core Reactivity with Signals', title: "Update a signal's value based on its previous value using mySignal.update(value =>...)", proficiency: 2, frequency: 8 },
+        { category: 'Core Reactivity with Signals', title: "Create a derived signal that reacts to other signals using computed(() =>...)", proficiency: 2, frequency: 8 },
+        { category: 'Angular CLI & Project Fundamentals', title: 'Follow Angular file naming conventions (e.g., my-component.component.ts)', proficiency: 2, frequency: 8 },
+        { category: 'Component & Template Fundamentals', title: 'Apply global styles to the application', proficiency: 2, frequency: 8 },
+        { category: 'Pipes', title: 'Understand the concept of pipes for data transformation', proficiency: 2, frequency: 8 },
+        { category: 'Directives', title: 'Understand directive concepts (attribute, structural, built-in)', proficiency: 2, frequency: 8 },
+        { category: 'Component Interaction & Lifecycle', title: 'Use ngOnInit lifecycle hook for component initialization logic', proficiency: 3, frequency: 10 },
+        { category: 'Services & Dependency Injection', title: 'Understand the concept of Dependency Injection (DI)', proficiency: 3, frequency: 10 },
+        { category: 'Services & Dependency Injection', title: 'Create a basic service class with @Injectable() decorator', proficiency: 3, frequency: 10 },
+        { category: 'Data Binding & Control Flow', title: 'Iterate over a collection using @for (item of items; track item.id or $index)', proficiency: 3, frequency: 10 },
+        { category: 'Angular CLI & Project Fundamentals', title: 'Build the application for production (ng build)', proficiency: 3, frequency: 9 },
+        { category: 'Component Interaction & Lifecycle', title: 'Emit events from a component with output() / @Output() decorator & EventEmitter', proficiency: 3, frequency: 9 },
+        { category: 'NgModule (Contextual Usage)', title: 'Understand the concept of NgModules (for legacy/library context)', proficiency: 3, frequency: 9 },
+        { category: 'NgModule (Contextual Usage)', title: 'Declare components, directives, pipes in an NgModule (legacy context)', proficiency: 3, frequency: 9 },
+        { category: 'Forms (Template-Driven)', title: 'Implement two-way data binding with [(ngModel)]="property" (requires FormsModule or ngModel standalone directive)', proficiency: 3, frequency: 9 },
+        { category: 'Pipes', title: 'Use built-in pipes (e.g., DatePipe, CurrencyPipe, JsonPipe, UpperCasePipe, LowerCasePipe)', proficiency: 3, frequency: 9 },
+        { category: 'Data Binding & Control Flow', title: 'Conditionally apply a single CSS class using [class.classname]="booleanExpression"', proficiency: 3, frequency: 9 },
+        { category: 'Angular CLI & Project Fundamentals', title: 'Run unit tests (ng test)', proficiency: 3, frequency: 8 },
+        { category: 'Data Binding & Control Flow', title: 'Use @else if (condition) and @else with @if for alternative content', proficiency: 3, frequency: 8 },
+        { category: 'Data Binding & Control Flow', title: 'Pass event data using $event in event handlers', proficiency: 3, frequency: 8 },
+        { category: 'Component Interaction & Lifecycle', title: 'Understand component lifecycle (overview of key hooks: ngOnInit, ngOnDestroy, etc.)', proficiency: 3, frequency: 8 },
+        { category: 'Forms (Template-Driven)', title: 'Handle form submission with (ngSubmit) event', proficiency: 3, frequency: 8 },
+        { category: 'Data Binding & Control Flow', title: 'Apply a single inline style using [style.style-name]="expression"', proficiency: 3, frequency: 8 },
+        { category: 'Angular CLI & Project Fundamentals', title: 'Lint code for style and errors (ng lint)', proficiency: 3, frequency: 7 },
+        { category: 'Pipes', title: 'Chain multiple pipes for sequential transformations', proficiency: 3, frequency: 7 },
+        { category: 'Pipes', title: "Import a built-in pipe into a standalone component's imports array", proficiency: 3, frequency: 7 },
+        { category: 'Component & Template Fundamentals', title: 'Declare a template reference variable #myVar on an HTML element', proficiency: 3, frequency: 6 },
+        { category: 'Data Binding & Control Flow', title: 'Bind to HTML attributes using Attribute Binding [attr.attribute-name]="expression"', proficiency: 3, frequency: 5 },
+        { category: 'Component & Template Fundamentals', title: 'Define a local, read-only template variable using @let myVar = expression', proficiency: 3, frequency: 5 },
+        { category: 'Services & Dependency Injection', title: "Provide a service at the root level using providedIn: 'root'", proficiency: 4, frequency: 10 },
+        { category: 'Services & Dependency Injection', title: 'Inject a service into a component or another service (constructor or inject() function)', proficiency: 4, frequency: 10 },
+        { category: 'HTTP Client & API Interaction', title: 'Import HttpClientModule (or use provideHttpClient for standalone)', proficiency: 4, frequency: 10 },
+        { category: 'HTTP Client & API Interaction', title: 'Make GET requests using HttpClient to fetch data', proficiency: 4, frequency: 10 },
+        { category: 'Routing & Navigation', title: 'Use <router-outlet> in a component template to display routed components', proficiency: 4, frequency: 10 },
+        { category: 'Routing & Navigation', title: 'Configure basic application routes using provideRouter(routes)', proficiency: 4, frequency: 9 },
+        { category: 'Routing & Navigation', title: 'Navigate declaratively in templates using routerLink directive', proficiency: 4, frequency: 9 },
+        { category: 'Routing & Navigation', title: 'Import RouterOutlet and RouterLink into a standalone component', proficiency: 4, frequency: 9 },
+        { category: 'Component Interaction & Lifecycle', title: 'Use ngOnDestroy lifecycle hook for component cleanup', proficiency: 4, frequency: 9 },
+        { category: 'NgModule (Contextual Usage)', title: 'Import and export NgModules (legacy context)', proficiency: 4, frequency: 9 },
+        { category: 'Forms (Reactive)', title: 'Import ReactiveFormsModule (or use provideForms)', proficiency: 4, frequency: 9 },
+        { category: 'Forms (Reactive)', title: 'Create FormControl instances to manage individual input fields', proficiency: 4, frequency: 9 },
+        { category: 'RxJS for Angular', title: 'Understand the concept of Observables as data streams', proficiency: 4, frequency: 9 },
+        { category: 'RxJS for Angular', title: 'Subscribe to an Observable to receive emitted values, errors, and completion signals', proficiency: 4, frequency: 9 },
+        { category: 'Routing & Navigation', title: 'Navigate programmatically using Router.navigate() or Router.navigateByUrl()', proficiency: 4, frequency: 9 },
+        { category: 'Data Binding & Control Flow', title: 'Understand and use the track expression in @for (e.g., track item.id or track $index)', proficiency: 4, frequency: 9 },
+        { category: 'Component Interaction & Lifecycle', title: 'Define a required input using input.required<Type>()', proficiency: 4, frequency: 8 },
+        { category: 'Forms (Template-Driven)', title: 'Create a basic template-driven form using #myForm="ngForm"', proficiency: 4, frequency: 8 },
+        { category: 'Forms (Template-Driven)', title: 'Implement basic input validation using HTML5 attributes (e.g., required, minlength)', proficiency: 4, frequency: 8 },
+        { category: 'Forms (Template-Driven)', title: "Display validation messages based on control state (e.g., myForm.controls.name.valid)", proficiency: 4, frequency: 8 },
+        { category: 'Testing', title: 'Understand fundamental unit testing concepts for components and services', proficiency: 4, frequency: 7 },
+        { category: 'Data Binding & Control Flow', title: 'Access contextual variables ($index, $first, $last, $even, $odd, $count) in an @for block', proficiency: 4, frequency: 7 },
+        { category: 'Data Binding & Control Flow', title: 'Bind to multiple CSS classes using [class]="expression" (string or object)', proficiency: 4, frequency: 7 },
+        { category: 'Directives', title: 'Use built-in NgClass directive for dynamic classes', proficiency: 4, frequency: 6 },
+        { category: 'Data Binding & Control Flow', title: 'Conditionally display content based on multiple values using @switch, @case, @default', proficiency: 4, frequency: 6 },
+        { category: 'Component & Template Fundamentals', title: 'Understand component style encapsulation (ViewEncapsulation)', proficiency: 4, frequency: 6 },
+        { category: 'Data Binding & Control Flow', title: 'Bind to multiple inline styles using [style]="expression" (string or object)', proficiency: 4, frequency: 6 },
+        { category: 'Directives', title: 'Use built-in NgStyle directive for dynamic styles', proficiency: 4, frequency: 5 },
+        { category: 'Data Binding & Control Flow', title: 'Provide fallback content for an empty collection using @empty with @for', proficiency: 4, frequency: 5 },
+        { category: 'Data Binding & Control Flow', title: 'Alias the result of an @if condition using ; as myVar', proficiency: 4, frequency: 5 },
+        { category: 'Forms (Reactive)', title: 'Create FormGroup instances to manage a collection of form controls', proficiency: 5, frequency: 9 },
+        { category: 'Forms (Reactive)', title: 'Bind FormControl and FormGroup to template elements (formGroup, formControlName)', proficiency: 5, frequency: 9 },
+        { category: 'Forms (Reactive)', title: "Add built-in validators (e.g., Validators.required, Validators.email)", proficiency: 5, frequency: 9 },
+        { category: 'Forms (Reactive)', title: "Display validation messages based on reactive control state (e.g., myForm.get('name').valid)", proficiency: 5, frequency: 9 },
+        { category: 'HTTP Client & API Interaction', title: 'Make POST, PUT, DELETE requests using HttpClient', proficiency: 5, frequency: 9 },
+        { category: 'HTTP Client & API Interaction', title: 'Handle HTTP errors from HttpClient requests (e.g., in subscribe error callback)', proficiency: 5, frequency: 9 },
+        { category: 'RxJS for Angular', title: 'Use common RxJS operators (e.g., map, filter, tap) for data transformation', proficiency: 5, frequency: 9 },
+        { category: 'RxJS for Angular & Signals Interop', title: 'Convert an Observable to a Signal using toSignal()', proficiency: 5, frequency: 8 },
+        { category: 'Forms (Reactive)', title: 'Use FormBuilder service to simplify FormControl and FormGroup creation', proficiency: 5, frequency: 8 },
+        { category: 'Routing & Navigation', title: 'Pass route parameters in the URL (e.g., /path/:id)', proficiency: 5, frequency: 8 },
+        { category: 'Routing & Navigation', title: 'Retrieve route parameters using ActivatedRoute service (snapshot or observable params)', proficiency: 5, frequency: 8 },
+        { category: 'Routing & Navigation', title: 'Organize routes for features in a standalone component architecture (e.g., route files per feature)', proficiency: 5, frequency: 8 },
+        { category: 'RxJS for Angular & Signals Interop', title: 'Convert a Signal to an Observable using toObservable()', proficiency: 5, frequency: 7 },
+        { category: 'Component Interaction & Lifecycle', title: 'Define a signal-based two-way binding using model() e.g. value = model<Type>()', proficiency: 5, frequency: 7 },
+        { category: 'Component Interaction & Lifecycle', title: 'Use a model() input in a parent component with [(value)]="parentProperty" syntax', proficiency: 5, frequency: 7 },
+        { category: 'Component Interaction & Lifecycle', title: 'Understand ngOnChanges lifecycle hook (primarily for non-signal @Input decorator usage)', proficiency: 5, frequency: 7 },
+        { category: 'Routing & Navigation', title: 'Use routerLinkActive directive for styling active navigation links', proficiency: 5, frequency: 7 },
+        { category: 'Forms (Template-Driven)', title: 'Understand NgForm and NgModel directives and their properties (valid, touched, errors)', proficiency: 5, frequency: 7 },
+        { category: 'Change Detection', title: "Understand Angular's default change detection strategy (Default - CheckAlways)", proficiency: 5, frequency: 7 },
+        { category: 'Testing', title: 'Write basic unit tests for Angular components', proficiency: 5, frequency: 7 },
+        { category: 'Testing', title: 'Write basic unit tests for Angular services', proficiency: 5, frequency: 7 },
+        { category: 'Core Reactivity with Signals', title: 'Create a two-way binding with a signal using linkedSignal()', proficiency: 5, frequency: 6 },
+        { category: 'Component & Template Fundamentals', title: 'Use <ng-template> for defining reusable template sections', proficiency: 5, frequency: 6 },
+        { category: 'Component & Template Fundamentals', title: 'Use <ng-container> as a non-rendered grouping element', proficiency: 5, frequency: 6 },
+        { category: 'Services & Dependency Injection', title: 'Understand different service provision scopes (e.g., component providers array)', proficiency: 5, frequency: 6 },
+        { category: 'Component & Template Fundamentals', title: 'Implement content projection with <ng-content> (single-slot)', proficiency: 5, frequency: 5 },
+        { category: 'Component Interaction & Lifecycle', title: 'Query a single view child element/component using viewChild<Type>() (signal query)', proficiency: 5, frequency: 5 },
+        { category: 'Directives', title: 'Inject ElementRef to access the host DOM element in a custom directive', proficiency: 5, frequency: 5 },
+        { category: 'Pipes', title: 'Create a custom pipe with @Pipe decorator and PipeTransform interface', proficiency: 5, frequency: 4 },
+        { category: 'Directives', title: 'Create a basic custom attribute directive', proficiency: 5, frequency: 4 },
+        { category: 'Component Interaction & Lifecycle', title: 'Use an input transform with input() (e.g., transform: booleanAttribute, numberAttribute)', proficiency: 5, frequency: 4 },
+        { category: 'RxJS for Angular', title: 'Use the async pipe in templates to subscribe/unsubscribe from Observables', proficiency: 6, frequency: 9 },
+        { category: 'HTTP Client & API Interaction', title: 'Pass headers and URL query parameters with HttpClient requests', proficiency: 6, frequency: 8 },
+        { category: 'RxJS for Angular', title: 'Manually unsubscribe from Observables to prevent memory leaks (e.g., takeUntilDestroyed)', proficiency: 6, frequency: 8 },
+        { category: 'Routing & Navigation', title: 'Bind route parameters directly to component inputs using withComponentInputBinding()', proficiency: 6, frequency: 8 },
+        { category: 'Forms (Reactive)', title: 'Check form and control validity programmatically (.valid, .invalid, .errors, .statusChanges)', proficiency: 6, frequency: 8 },
+        { category: 'Component & Template Fundamentals', title: 'Use the host property in @Component/@Directive for static bindings and listeners', proficiency: 6, frequency: 7 },
+        { category: 'Forms (Reactive)', title: 'Get form control values programmatically using .value', proficiency: 6, frequency: 7 },
+        { category: 'Forms (Reactive)', title: 'Set form control values programmatically using setValue() or patchValue()', proficiency: 6, frequency: 7 },
+        { category: 'Forms (Reactive)', title: 'Create FormArray instances for dynamic lists of form controls', proficiency: 6, frequency: 7 },
+        { category: 'Routing & Navigation', title: 'Configure child routes (nested routes) for complex layouts', proficiency: 6, frequency: 7 },
+        { category: 'Signals API (Core Concepts)', title: 'Understand lazy evaluation and memoization in computed signals', proficiency: 6, frequency: 6 },
+        { category: 'Change Detection', title: 'Use ChangeDetectionStrategy.OnPush for performance optimization', proficiency: 6, frequency: 6 },
+        { category: 'RxJS for Angular', title: 'Combine multiple Observables (e.g., forkJoin, combineLatest, mergeMap, switchMap)', proficiency: 6, frequency: 6 },
+        { category: 'Routing & Navigation', title: 'Understand provideRouter features like withDebugTracing(), withPreloading() etc.', proficiency: 6, frequency: 6 },
+        { category: 'Testing', title: 'Implement mocking for dependencies in unit tests', proficiency: 6, frequency: 6 },
+        { category: 'Directives', title: 'Pass data to a custom attribute directive using input() / @Input()', proficiency: 6, frequency: 6 },
+        { category: 'Signals API (Core Concepts)', title: 'Create an effect to run side-effects when a signal changes using effect()', proficiency: 6, frequency: 5 },
+        { category: 'Component Interaction & Lifecycle', title: 'Understand ngAfterViewInit and ngAfterContentInit lifecycle hooks', proficiency: 6, frequency: 5 },
+        { category: 'Component Interaction & Lifecycle', title: 'Query multiple view children using viewChildren<Type>() (signal query)', proficiency: 6, frequency: 5 },
+        { category: 'RxJS for Angular', title: 'Understand and use Subject and BehaviorSubject for multicasting values', proficiency: 6, frequency: 5 },
+        { category: 'Component & Template Fundamentals', title: 'Implement multi-slot content projection using <ng-content select="[cssSelector]"></ng-content>', proficiency: 6, frequency: 5 },
+        { category: 'Component & Template Fundamentals', title: 'Render a template fragment programmatically using ViewContainerRef.createEmbeddedView()', proficiency: 6, frequency: 4 },
+        { category: 'Signals API (Core Concepts)', title: 'Understand the injection context requirement for effect() and allowSignalWrites option', proficiency: 6, frequency: 4 },
+        { category: 'Pipes', title: 'Create a custom standalone pipe and import it or provide it', proficiency: 6, frequency: 4 },
+        { category: 'Pipes', title: "Pass arguments to a custom pipe's transform method", proficiency: 6, frequency: 4 },
+        { category: 'Pipes', title: 'Understand pure vs. impure pipes and their performance implications', proficiency: 6, frequency: 3 },
+        { category: 'Component & Template Fundamentals', title: 'Understand the * syntax as syntactic sugar for structural directives', proficiency: 7, frequency: 8 },
+        { category: 'HTTP Client & API Interaction', title: 'Create a simple functional HTTP interceptor (HttpInterceptorFn)', proficiency: 7, frequency: 6 },
+        { category: 'Routing & Navigation', title: 'Implement lazy loading for routes using loadComponent', proficiency: 7, frequency: 6 },
+        { category: 'Routing & Navigation', title: 'Implement route guards (e.g., CanActivateFn, CanDeactivateFn) for access control', proficiency: 7, frequency: 6 },
+        { category: 'Routing & Navigation', title: 'Use inject() within a functional guard to access services', proficiency: 7, frequency: 6 },
+        { category: 'Component & Template Fundamentals', title: 'Render a template using NgTemplateOutlet with a context object', proficiency: 7, frequency: 5 },
+        { category: 'HTTP Client & API Interaction', title: 'Register a functional interceptor using withInterceptors()', proficiency: 7, frequency: 5 },
+        { category: 'Forms (Reactive)', title: 'Implement custom synchronous validators (ValidatorFn)', proficiency: 7, frequency: 5 },
+        { category: 'RxJS for Angular', title: 'Implement error handling strategies in RxJS streams (e.g., catchError, retry)', proficiency: 7, frequency: 5 },
+        { category: 'Testing', title: 'Test asynchronous code involving Observables or Promises (e.g., fakeAsync, waitForAsync)', proficiency: 7, frequency: 5 },
+        { category: 'Async Reactivity (Experimental)', title: 'Load data asynchronously using the generic resource() function', proficiency: 7, frequency: 4 },
+        { category: 'Component Interaction & Lifecycle', title: 'Query a single content child element/component using contentChild<Type>() (signal query)', proficiency: 7, frequency: 4 },
+        { category: 'Change Detection', title: 'Manually trigger change detection using ChangeDetectorRef.markForCheck()', proficiency: 7, frequency: 4 },
+        { category: 'Component & Template Fundamentals', title: 'Render a component programmatically using ViewContainerRef.createComponent()', proficiency: 7, frequency: 3 },
+        { category: 'Services & Dependency Injection', title: 'Use InjectionToken for providing and injecting non-class dependencies', proficiency: 7, frequency: 3 },
+        { category: 'Component Interaction & Lifecycle', title: 'Query multiple content children using contentChildren<Type>() (signal query)', proficiency: 7, frequency: 3 },
+        { category: 'Directives', title: 'Create a custom structural directive (e.g., *appUnless)', proficiency: 7, frequency: 2 },
+        { category: 'Async Reactivity (Experimental)', title: 'Fetch data using the specialized httpResource() for HTTP requests', proficiency: 8, frequency: 6 },
+        { category: 'Async Reactivity (Experimental)', title: 'Load data from Observables using rxResource()', proficiency: 8, frequency: 5 },
+        { category: 'HTTP Client & API Interaction', title: 'Add a custom header to outgoing requests using an interceptor', proficiency: 8, frequency: 5 },
+        { category: 'Directives', title: 'Use the Directive Composition API to apply directives to a host component', proficiency: 8, frequency: 4 },
+        { category: 'RxJS for Angular', title: 'Debounce/throttle user input with RxJS operators (e.g., debounceTime, throttleTime)', proficiency: 8, frequency: 4 },
+        { category: 'Routing & Navigation', title: 'Use ResolveFn to fetch data before route activation', proficiency: 8, frequency: 4 },
+        { category: 'Forms (Reactive)', title: 'Implement custom asynchronous validators (AsyncValidatorFn)', proficiency: 8, frequency: 3 },
+    ];
+
+    const tableBody = document.getElementById('curriculumTableBody');
+    const searchInput = document.getElementById('searchInput');
+    const noResults = document.getElementById('noResults');
+
+    let currentSort = {
+        key: 'proficiency',
+        direction: 'asc'
+    };
+
+    // Function to render the table
+    const renderTable = (data) => {
+        tableBody.innerHTML = '';
+        if (data.length === 0) {
+            noResults.classList.remove('hidden');
+            return;
+        }
+        noResults.classList.add('hidden');
+
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-gray-50';
+            row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">${item.category}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${item.title}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${item.proficiency}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${item.frequency}</td>
+                `;
+            tableBody.appendChild(row);
+        });
+    };
+
+    // Function to sort data
+    const sortData = (key) => {
+        const direction = (currentSort.key === key && currentSort.direction === 'asc') ? 'desc' : 'asc';
+        currentSort = { key, direction };
+
+        const sortedData = [...curriculumData].sort((a, b) => {
+            if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
+            if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
+            // Secondary sort for frequency if proficiency is the same
+            if (key === 'proficiency') {
+                if (a.frequency > b.frequency) return -1;
+                if (a.frequency < b.frequency) return 1;
+            }
+            // Secondary sort for proficiency if frequency is the same
+            if (key === 'frequency') {
+                if (a.proficiency < b.proficiency) return -1;
+                if (a.proficiency > b.proficiency) return 1;
+            }
+            return 0;
+        });
+
+        // Update header styles
+        document.querySelectorAll('.table-sortable th[data-sort]').forEach(th => {
+            th.classList.remove('sorted-asc', 'sorted-desc');
+            if (th.dataset.sort === key) {
+                th.classList.add(direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
+            }
+        });
+
+        filterAndRender();
+    };
+
+    // Function to filter data based on search input
+    const filterAndRender = () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const key = currentSort.key;
+        const direction = currentSort.direction;
+
+        const filteredData = curriculumData.filter(item =>
+            item.title.toLowerCase().includes(searchTerm) ||
+            item.category.toLowerCase().includes(searchTerm)
+        );
+
+        const sortedData = [...filteredData].sort((a, b) => {
+            if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
+            if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
+            if (key === 'proficiency') {
+                if (a.frequency > b.frequency) return -1;
+                if (a.frequency < b.frequency) return 1;
+            }
+            if (key === 'frequency') {
+                if (a.proficiency < b.proficiency) return -1;
+                if (a.proficiency > b.proficiency) return 1;
+            }
+            return 0;
+        });
+
+        renderTable(sortedData);
+    };
+
+    // Event Listeners
+    searchInput.addEventListener('input', filterAndRender);
+    document.querySelectorAll('.table-sortable th[data-sort]').forEach(header => {
+        header.addEventListener('click', () => {
+            sortData(header.dataset.sort);
+        });
+    });
+
+    // Initial render
+    window.onload = () => {
+        sortData('proficiency'); // Initial sort
+    };
+
+</script>
+</body>
+</html>
